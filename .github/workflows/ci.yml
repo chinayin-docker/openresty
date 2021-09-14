@@ -20,7 +20,7 @@ jobs:
         working-directory: ${{ matrix.major }}
         run: |
           echo ::set-output name=repository::${GITHUB_ACTOR}/$(basename ${GITHUB_REPOSITORY})
-          echo ::set-output name=version::$(grep ' RESTY_VERSION ' Dockerfile | awk '{print $3}')
+          echo ::set-output name=version::$(grep 'RESTY_VERSION ' Dockerfile | awk '{print $3}')
           echo ::set-output name=workdir::${{ matrix.major }}/${{ matrix.os }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
