@@ -34,6 +34,7 @@ jobs:
       - name: Copy files
         run: |
           cp files/*.conf ${{ matrix.major }}/${{ matrix.os }}/
+          tree .
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
