@@ -32,7 +32,6 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Copy files
-        id: vars
         run: |
           cp files/*.conf ${{ matrix.major }}/${{ matrix.os }}/
       - name: Build and push
