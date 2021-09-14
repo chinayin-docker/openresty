@@ -44,5 +44,6 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ steps.vars.outputs.repository }}:${{ matrix.major }}
+            ${{ steps.vars.outputs.repository }}:${{ steps.vars.outputs.version }}
             ${{ steps.vars.outputs.repository }}:${{ matrix.major }}-${{ matrix.os }}
             ${{ steps.vars.outputs.repository }}:${{ steps.vars.outputs.version }}-${{ matrix.os }}
