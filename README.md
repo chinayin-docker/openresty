@@ -16,7 +16,7 @@ OpenResty is a full-fledged web application server by bundling the standard ngin
 
 - `openresty:<version>`
 
-### Use
+### Usage
 
 You can use the image directly, e.g.
 

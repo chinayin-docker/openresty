@@ -1,11 +1,11 @@
 #
 #
 #--------------------------------------------------------------------------
-# 1.19-buster-slim
+# 1.19-bullseye-slim
 #--------------------------------------------------------------------------
 #
 
-FROM chinayin/debian:buster-slim
+FROM chinayin/debian:bullseye-slim
 
 LABEL maintainer="Evan Wies <evan@neomantra.net>"
 
@@ -15,11 +15,11 @@ ENV RESTY_VERSION 1.19.9.1
 # OpenResty Debian package variants.
 # For example: "-debug" or "-valgrind"
 ARG RESTY_DEB_FLAVOR=""
-ARG RESTY_DEB_VERSION="=1.19.9.1-1~buster1"
-ARG RESTY_APT_REPO="http://openresty.org/package/debian"
+ARG RESTY_DEB_VERSION="=1.19.9.1-1~bullseye1"
+ARG RESTY_APT_REPO="https://openresty.org/package/debian"
 ARG RESTY_APT_PGP="https://openresty.org/package/pubkey.gpg"
 ARG RESTY_IMAGE_BASE="debian"
-ARG RESTY_IMAGE_TAG="buster-slim"
+ARG RESTY_IMAGE_TAG="bullseye-slim"
 
 LABEL resty_image_base="${RESTY_IMAGE_BASE}"
 LABEL resty_image_tag="${RESTY_IMAGE_TAG}"
@@ -27,6 +27,7 @@ LABEL resty_apt_repo="${RESTY_APT_REPO}"
 LABEL resty_apt_pgp="${RESTY_APT_PGP}"
 LABEL resty_deb_flavor="${RESTY_DEB_FLAVOR}"
 LABEL resty_deb_version="${RESTY_DEB_VERSION}"
+
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \

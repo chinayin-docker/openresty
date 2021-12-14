@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         major: [ 1.19 ]
-        os: [ buster-slim ]
+        os: [ bullseye-slim ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
