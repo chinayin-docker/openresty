@@ -1,30 +1,30 @@
 #
 #
 #--------------------------------------------------------------------------
-# 1.21
+# 1.25
 #--------------------------------------------------------------------------
 #
 
-FROM chinayin/debian:bullseye-slim
+FROM chinayin/debian:bookworm-slim
 
 LABEL maintainer="Evan Wies <evan@neomantra.net>"
-
-ENV RESTY_VERSION 1.21.4.2
 
 # RESTY_DEB_FLAVOR build argument is used to select other
 # OpenResty Debian package variants.
 # For example: "-debug" or "-valgrind"
 ARG RESTY_DEB_FLAVOR=""
-ARG RESTY_DEB_VERSION="=1.21.4.2-1~bullseye1"
+ARG RESTY_DEB_VERSION="=1.25.3.1-2~bookworm1"
 ARG RESTY_APT_REPO="https://openresty.org/package/debian"
 ARG RESTY_APT_PGP="https://openresty.org/package/pubkey.gpg"
+ARG RESTY_APT_ARCH="amd64"
 ARG RESTY_IMAGE_BASE="debian"
-ARG RESTY_IMAGE_TAG="bullseye-slim"
+ARG RESTY_IMAGE_TAG="bookworm-slim"
 
 LABEL resty_image_base="${RESTY_IMAGE_BASE}"
 LABEL resty_image_tag="${RESTY_IMAGE_TAG}"
 LABEL resty_apt_repo="${RESTY_APT_REPO}"
 LABEL resty_apt_pgp="${RESTY_APT_PGP}"
+LABEL resty_apt_arch="${RESTY_APT_ARCH}"
 LABEL resty_deb_flavor="${RESTY_DEB_FLAVOR}"
 LABEL resty_deb_version="${RESTY_DEB_VERSION}"
 
@@ -32,20 +32,15 @@ LABEL resty_deb_version="${RESTY_DEB_VERSION}"
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         ca-certificates \
-        gettext-base \
-        gnupg2 \
-        lsb-base \
-        lsb-release \
-        software-properties-common \
+        gnupg \
         wget \
-    && wget -qO /tmp/pubkey.gpg ${RESTY_APT_PGP} \
-    && DEBIAN_FRONTEND=noninteractive apt-key add /tmp/pubkey.gpg \
-    && rm /tmp/pubkey.gpg \
-    && DEBIAN_FRONTEND=noninteractive add-apt-repository -y "deb ${RESTY_APT_REPO} $(lsb_release -sc) openresty" \
+    && wget -qO - ${RESTY_APT_PGP} | gpg --dearmor > /etc/apt/trusted.gpg.d/openresty-keyring.gpg \
+    && chown root:root /etc/apt/trusted.gpg.d/openresty-keyring.gpg \
+    && chmod ugo+r /etc/apt/trusted.gpg.d/openresty-keyring.gpg \
+    && chmod go-w /etc/apt/trusted.gpg.d/openresty-keyring.gpg \
+    && echo "deb [arch=$RESTY_APT_ARCH signed-by=/etc/apt/trusted.gpg.d/openresty-keyring.gpg] $RESTY_APT_REPO $(grep -Po 'VERSION="[0-9]+ \(\K[^)]+' /etc/os-release) openresty" | tee /etc/apt/sources.list.d/openresty.list \
     && DEBIAN_FRONTEND=noninteractive apt-get remove -y --purge \
-        gnupg2 \
-        lsb-release \
-        software-properties-common \
+        gnupg \
         wget \
     && DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
