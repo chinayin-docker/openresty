@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        major: [ 1.21 ]
-        os: [ bullseye-slim ]
+        major: [ 1.31 ]
+        os: [ bookworm-slim ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -20,7 +20,7 @@ jobs:
         working-directory: ${{ matrix.major }}/${{ matrix.os }}
         run: |
           echo "repository=${GITHUB_ACTOR}/$(basename ${GITHUB_REPOSITORY})" >> $GITHUB_OUTPUT
-          echo "version=$(grep 'RESTY_VERSION ' Dockerfile | awk '{print $3}')" >> $GITHUB_OUTPUT
+          echo "version=$(grep 'RESTY_DEB_VERSION' Dockerfile | sed -E 's/.*="=([0-9.]+)-.*/\1/')" >> $GITHUB_OUTPUT
           echo "workdir=${{ matrix.major }}/${{ matrix.os }}" >> $GITHUB_OUTPUT
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4

@@ -16,13 +16,14 @@ as well as most of their external dependencies.
 ### Image Variants
 
 - `openresty:<version>`
+- `openresty:<version>-bookworm-slim`
 
 ### Usage
 
 You can use the image directly, e.g.
 
 ```
-docker run --rm -it chinayin/openresty:1.21
+docker run --rm -it chinayin/openresty:1.31.1.1
 ```
 
 The images are built daily and have the security release enabled, so will contain any security updates released more
@@ -31,5 +32,5 @@ than 24 hours ago.
 You can also use the images as a base for your own Dockerfile:
 
 ```
-FROM chinayin/openresty:1.21
+FROM chinayin/openresty:1.31.1.1
 ```
